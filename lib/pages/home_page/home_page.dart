@@ -16,11 +16,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final controller = HomeController();
+  final controller = new HomeController();
 
   @override
   void initState() {
-    controller.getPokemon(context);
+   controller.fetchPokemon(context);
     super.initState();
   }
 
@@ -28,13 +28,19 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double statustop = MediaQuery.of(context).padding.top;
-
     return Scaffold(
       body: _body(width),
     );
   }
 
   _body(width) {
+    //utlizando provider global
+    // final controller = Provider.of<HomeController>(context);
+
+    // if (controller.pokemons.length == 0) {
+    //   controller.fetchPokemon(context);
+    // }
+
     return Stack(
       alignment: Alignment.topCenter,
       overflow: Overflow.visible,
@@ -75,7 +81,15 @@ class _HomePageState extends State<HomePage> {
                               child: GestureDetector(
                                 child: PokeItem(pokemon: pokemon),
                                 onTap: () {
-                                  print(pokemon.name);
+                                  //utilizando contrutor
+                                  final pokemonP = Provider.of<Pokemon>(context,
+                                      listen: false);
+                                  pokemonP.setPokemon(pokemon);
+
+                                  Navigator.pushNamed(
+                                      context, '/pokemon-detail');
+                                  //utilizando o provider global
+                                  controller.setpokemon(pokemon);
                                 },
                               ),
                             ),

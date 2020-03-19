@@ -92,6 +92,13 @@ class Pokemon {
     }
     return data;
   }
+
+  Pokemon _pokemon;
+
+  Pokemon setPokemon(value) => _pokemon = value;
+
+  Pokemon get pokemon => _pokemon;
+
 }
 
 class NextEvolution {

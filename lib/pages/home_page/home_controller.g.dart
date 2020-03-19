@@ -55,11 +55,11 @@ mixin _$HomeController on _HomeControllerBase, Store {
     }, _$_pokemonAtom, name: '${_$_pokemonAtom.name}_set');
   }
 
-  final _$getPokemonAsyncAction = AsyncAction('getPokemon');
+  final _$fetchPokemonAsyncAction = AsyncAction('fetchPokemon');
 
   @override
-  Future getPokemon(dynamic context) {
-    return _$getPokemonAsyncAction.run(() => super.getPokemon(context));
+  Future fetchPokemon(dynamic context) {
+    return _$fetchPokemonAsyncAction.run(() => super.fetchPokemon(context));
   }
 
   final _$_HomeControllerBaseActionController =

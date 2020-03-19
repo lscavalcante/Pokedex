@@ -31,10 +31,10 @@ abstract class _HomeControllerBase with Store {
   setpokemon(value) => _pokemon = value;
 
   @action
-  getPokemon(context) async {
+  fetchPokemon(context) async {
     _pokemons = await PokemonService.getAllPokemon();
 
-    final pokemon = Provider.of<PokeAPI>(context,listen: false);
+    final pokemon = Provider.of<PokeAPI>(context, listen: false);
 
     pokemon.pokemon = _pokemons;
   }

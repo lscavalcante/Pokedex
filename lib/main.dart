@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon/models/pokemon.dart';
+import 'package:pokemon/pages/home_page/home_controller.dart';
 import 'package:pokemon/pages/home_page/home_page.dart';
+import 'package:pokemon/pages/pokemon_detail/pokemon_detail_page.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
@@ -17,13 +19,20 @@ class MyApp extends StatelessWidget {
         Provider<Pokemon>(
           create: (_) => Pokemon(),
         ),
+        Provider<HomeController>(
+          create: (_) => HomeController(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: HomePage(),
+        initialRoute: '/',
+        routes: {
+          '/' : (context) => HomePage(), 
+          '/pokemon-detail' : (context) => PokemonDetailPage()
+        },
       ),
     );
   }
