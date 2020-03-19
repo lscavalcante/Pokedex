@@ -28,6 +28,7 @@ dependencies:
   http:
   mobx:
   flutter_mobx:
+  provider: ^4.0.4
 
 dev_dependencies:
   flutter_test:

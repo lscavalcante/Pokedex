@@ -4,6 +4,7 @@ import 'package:mobx/mobx.dart';
 import 'package:pokemon/consts/consts_api.dart';
 import 'package:pokemon/models/pokemon.dart';
 import 'package:pokemon/services/pokemon_service.dart';
+import 'package:provider/provider.dart';
 part 'home_controller.g.dart';
 
 class HomeController = _HomeControllerBase with _$HomeController;
@@ -30,8 +31,12 @@ abstract class _HomeControllerBase with Store {
   setpokemon(value) => _pokemon = value;
 
   @action
-  getPokemon() async {
+  getPokemon(context) async {
     _pokemons = await PokemonService.getAllPokemon();
+
+    final pokemon = Provider.of<PokeAPI>(context,listen: false);
+
+    pokemon.pokemon = _pokemons;
   }
 
 }

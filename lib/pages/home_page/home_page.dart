@@ -7,6 +7,8 @@ import 'package:pokemon/consts/consts_images.dart';
 import 'package:pokemon/models/pokemon.dart';
 import 'package:pokemon/pages/home_page/home_controller.dart';
 import 'package:pokemon/pages/home_page/widgets/app_bar_widget.dart';
+import 'package:pokemon/pages/home_page/widgets/poke_item.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,7 +20,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    controller.getPokemon();
+    controller.getPokemon(context);
     super.initState();
   }
 
@@ -26,6 +28,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double statustop = MediaQuery.of(context).padding.top;
+
     return Scaffold(
       body: _body(width),
     );
@@ -69,7 +72,12 @@ class _HomePageState extends State<HomePage> {
                           duration: const Duration(milliseconds: 375),
                           child: ScaleAnimation(
                             child: GestureDetector(
-                              child: _pokeItem(pokemon),
+                              child: GestureDetector(
+                                child: PokeItem(pokemon: pokemon),
+                                onTap: () {
+                                  print(pokemon.name);
+                                },
+                              ),
                             ),
                           ));
                     },
@@ -80,40 +88,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ],
-    );
-  }
-
-  _pokeItem(Pokemon pokemon) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 7, left: 7, top: 7, bottom: 7),
-      child: Container(
-          decoration: BoxDecoration(
-              color: ConstsApi.getColorType(type: pokemon.type[0]), borderRadius: BorderRadius.circular(20)),
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                right: 0,
-                bottom: 0,
-                child: Opacity(
-                    opacity: 0.1,
-                    child: Image.asset(
-                      ConstsImages.imagePokeball,
-                      color: Colors.white,
-                      height: 130,
-                      width: 130,
-                    )),
-              ),
-              Positioned(
-                  right: 10,
-                  bottom: 10,
-                  child: CachedNetworkImage(
-                    imageUrl: "${pokemon.img}",
-                    placeholder: (context, url) => new Container(
-                      color: Colors.transparent,
-                    ),
-                  )),
-            ],
-          )),
     );
   }
 }

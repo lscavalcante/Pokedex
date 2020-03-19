@@ -8,8 +8,6 @@ class PokemonService {
 
   static Future<List<Pokemon>> getAllPokemon() async{
     var response = await http.get(ConstsApi.pokeURL);
-    // print('Response status: ${response.statusCode}');
-    // print('Response body: ${response.body}');
 
     Map map = jsonDecode(response.body);
     
