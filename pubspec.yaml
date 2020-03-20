@@ -29,6 +29,7 @@ dependencies:
   mobx:
   flutter_mobx:
   provider: ^4.0.4
+  sliding_sheet: ^0.2.8
 
 dev_dependencies:
   flutter_test:
