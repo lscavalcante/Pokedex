@@ -24,6 +24,8 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
 
   PageController _pageController;
 
+  double opacidade = 1;
+
   int posicaoPokemon;
 
   @override
@@ -54,6 +56,22 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
           body: Stack(
             children: <Widget>[
               SlidingSheet(
+                listener: (state) {
+                  print(state.extent);
+                  setState(() {
+                    if (state.extent >= 0.75) {
+                      opacidade = 0.5;
+                      if(state.extent >= 0.85) {
+                        opacidade = 0.3;
+                        if(state.extent >= 0.90) {
+                          opacidade =0.0;
+                        }
+                      }
+                    } else {
+                      opacidade = 1;
+                    }
+                  });
+                },
                 elevation: 8,
                 cornerRadius: 16,
                 snapSpec: const SnapSpec(
@@ -71,23 +89,10 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
                 },
               ),
               Positioned(
-                top: 40,
-                left: MediaQuery.of(context).size.width / 3.5,
-                child: Opacity(
-                  child: Image.asset(
-                    ConstsImages.imagePokeball,
-                    height: 200,
-                    width: 200,
-                    color: Colors.white,
-                  ),
-                  opacity: 0.2,
-                ),
-              ),
-              Positioned(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 50.0),
                   child: SizedBox(
-                    height: 150,
+                    height: 200,
                     child: PageView.builder(
                       itemCount: homeController.pokemons.length,
                       controller: _pageController,
@@ -97,13 +102,32 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
                       },
                       itemBuilder: (BuildContext context, int count) {
                         Pokemon pokemonP = homeController.pokemons[count];
-                        return CachedNetworkImage(
-                          height: 130,
-                          width: 130,
-                          placeholder: (context, url) => new Container(
-                            color: Colors.transparent,
-                          ),
-                          imageUrl: "${pokemonP.img}",
+                        return Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Hero(
+                                child: Opacity(
+                                  child: Image.asset(
+                                    ConstsImages.imagePokeball,
+                                    height: 260,
+                                    width: 260,
+                                    color: Colors.white,
+                                  ),
+                                  opacity: 0.2,
+                                ),
+                                tag: count.toString()),
+                            Opacity(
+                              child: CachedNetworkImage(
+                                height: 200,
+                                width: 200,
+                                placeholder: (context, url) => new Container(
+                                  color: Colors.transparent,
+                                ),
+                                imageUrl: "${pokemonP.img}",
+                              ),
+                              opacity: opacidade,
+                            ),
+                          ],
                         );
                       },
                     ),
