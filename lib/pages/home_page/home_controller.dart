@@ -16,6 +16,9 @@ abstract class _HomeControllerBase with Store {
   @observable
   Pokemon _pokemon;
 
+  @observable
+  int posicaoPokemon;
+
   @computed
   Pokemon get pokemon => _pokemon;
 
@@ -28,7 +31,10 @@ abstract class _HomeControllerBase with Store {
   }
 
   @action
-  setpokemon(value) => _pokemon = value;
+  setpokemon(value, {index}) {
+    _pokemon = value;
+    posicaoPokemon = index;
+  }
 
   @action
   fetchPokemon(context) async {

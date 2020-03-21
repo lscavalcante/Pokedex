@@ -5,4 +5,6 @@ class PokemonDetailController = _PokemonDetailControllerBase with _$PokemonDetai
 
 abstract class _PokemonDetailControllerBase with Store {
   
+
+
 }

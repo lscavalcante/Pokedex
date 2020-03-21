@@ -8,6 +8,7 @@ import 'package:pokemon/models/pokemon.dart';
 import 'package:pokemon/pages/home_page/home_controller.dart';
 import 'package:pokemon/pages/home_page/widgets/app_bar_widget.dart';
 import 'package:pokemon/pages/home_page/widgets/poke_item.dart';
+import 'package:pokemon/pages/pokemon_detail/pokemon_detail_page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +19,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final controller = new HomeController();
 
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,10 +86,10 @@ class _HomePageState extends State<HomePage> {
                                   //     listen: false);
                                   // pokemonP.setPokemon(pokemon);
 
-                                  Navigator.pushNamed(
-                                      context, '/pokemon-detail');
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context)  => PokemonDetailPage(index: index)));
                                   //utilizando o provider global
-                                  controller.setpokemon(pokemon);
+                                  controller.setpokemon(pokemon, index: index);
                                 },
                               ),
                             ),

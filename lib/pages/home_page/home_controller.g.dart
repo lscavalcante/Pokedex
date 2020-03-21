@@ -55,6 +55,23 @@ mixin _$HomeController on _HomeControllerBase, Store {
     }, _$_pokemonAtom, name: '${_$_pokemonAtom.name}_set');
   }
 
+  final _$posicaoPokemonAtom = Atom(name: '_HomeControllerBase.posicaoPokemon');
+
+  @override
+  int get posicaoPokemon {
+    _$posicaoPokemonAtom.context.enforceReadPolicy(_$posicaoPokemonAtom);
+    _$posicaoPokemonAtom.reportObserved();
+    return super.posicaoPokemon;
+  }
+
+  @override
+  set posicaoPokemon(int value) {
+    _$posicaoPokemonAtom.context.conditionallyRunInAction(() {
+      super.posicaoPokemon = value;
+      _$posicaoPokemonAtom.reportChanged();
+    }, _$posicaoPokemonAtom, name: '${_$posicaoPokemonAtom.name}_set');
+  }
+
   final _$fetchPokemonAsyncAction = AsyncAction('fetchPokemon');
 
   @override
@@ -66,10 +83,10 @@ mixin _$HomeController on _HomeControllerBase, Store {
       ActionController(name: '_HomeControllerBase');
 
   @override
-  dynamic setpokemon(dynamic value) {
+  dynamic setpokemon(dynamic value, {dynamic index}) {
     final _$actionInfo = _$_HomeControllerBaseActionController.startAction();
     try {
-      return super.setpokemon(value);
+      return super.setpokemon(value, index: index);
     } finally {
       _$_HomeControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -78,7 +95,7 @@ mixin _$HomeController on _HomeControllerBase, Store {
   @override
   String toString() {
     final string =
-        'pokemon: ${pokemon.toString()},pokemons: ${pokemons.toString()}';
+        'posicaoPokemon: ${posicaoPokemon.toString()},pokemon: ${pokemon.toString()},pokemons: ${pokemons.toString()}';
     return '{$string}';
   }
 }
