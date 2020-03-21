@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokemon/consts/consts_api.dart';
+import 'package:pokemon/consts/consts_images.dart';
 import 'package:pokemon/models/pokemon.dart';
 import 'package:pokemon/pages/home_page/home_controller.dart';
 import 'package:provider/provider.dart';
@@ -70,6 +71,19 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
                 },
               ),
               Positioned(
+                top: 40,
+                left: MediaQuery.of(context).size.width / 3.5,
+                child: Opacity(
+                  child: Image.asset(
+                    ConstsImages.imagePokeball,
+                    height: 200,
+                    width: 200,
+                    color: Colors.white,
+                  ),
+                  opacity: 0.2,
+                ),
+              ),
+              Positioned(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 50.0),
                   child: SizedBox(
@@ -84,8 +98,8 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
                       itemBuilder: (BuildContext context, int count) {
                         Pokemon pokemonP = homeController.pokemons[count];
                         return CachedNetworkImage(
-                          height: 60,
-                          width: 60,
+                          height: 130,
+                          width: 130,
                           placeholder: (context, url) => new Container(
                             color: Colors.transparent,
                           ),
@@ -95,7 +109,7 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         );
