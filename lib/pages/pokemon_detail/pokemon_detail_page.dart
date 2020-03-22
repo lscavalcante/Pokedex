@@ -5,6 +5,7 @@ import 'package:pokemon/consts/consts_api.dart';
 import 'package:pokemon/consts/consts_images.dart';
 import 'package:pokemon/models/pokemon.dart';
 import 'package:pokemon/pages/home_page/home_controller.dart';
+import 'package:pokemon/pages/pokemon_detail/pokemon_detail_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
@@ -18,21 +19,20 @@ class PokemonDetailPage extends StatefulWidget {
 }
 
 class _PokemonDetailPageState extends State<PokemonDetailPage> {
-  Pokemon pokemonP;
 
   HomeController homeController;
 
   PageController _pageController;
 
-  double opacidade = 1;
-
-  int posicaoPokemon;
+  PokemonDetailController pokemonDetailController;
 
   @override
   void initState() {
     _pageController = PageController(initialPage: widget.index);
 
     // pokemonP = Provider.of<Pokemon>(context, listen: false);
+
+    pokemonDetailController = PokemonDetailController();
 
     homeController = Provider.of<HomeController>(context, listen: false);
 
@@ -56,22 +56,8 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
           body: Stack(
             children: <Widget>[
               SlidingSheet(
-                listener: (state) {
-                  print(state.extent);
-                  setState(() {
-                    if (state.extent >= 0.75) {
-                      opacidade = 0.5;
-                      if(state.extent >= 0.85) {
-                        opacidade = 0.3;
-                        if(state.extent >= 0.90) {
-                          opacidade =0.0;
-                        }
-                      }
-                    } else {
-                      opacidade = 1;
-                    }
-                  });
-                },
+                listener: (state) =>
+                    pokemonDetailController.controlImagePokemon(state),
                 elevation: 8,
                 cornerRadius: 16,
                 snapSpec: const SnapSpec(
@@ -116,17 +102,19 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
                                   opacity: 0.2,
                                 ),
                                 tag: count.toString()),
-                            Opacity(
-                              child: CachedNetworkImage(
-                                height: 200,
-                                width: 200,
-                                placeholder: (context, url) => new Container(
-                                  color: Colors.transparent,
+                            Observer(builder: (_) {
+                              return Opacity(
+                                child: CachedNetworkImage(
+                                  height: 200,
+                                  width: 200,
+                                  placeholder: (context, url) => new Container(
+                                    color: Colors.transparent,
+                                  ),
+                                  imageUrl: "${pokemonP.img}",
                                 ),
-                                imageUrl: "${pokemonP.img}",
-                              ),
-                              opacity: opacidade,
-                            ),
+                                opacity: pokemonDetailController.opacidade,
+                              );
+                            }),
                           ],
                         );
                       },

@@ -9,9 +9,47 @@ part of 'pokemon_detail_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$PokemonDetailController on _PokemonDetailControllerBase, Store {
+  Computed<double> _$opacidadeComputed;
+
+  @override
+  double get opacidade =>
+      (_$opacidadeComputed ??= Computed<double>(() => super.opacidade)).value;
+
+  final _$_opacidadeAtom =
+      Atom(name: '_PokemonDetailControllerBase._opacidade');
+
+  @override
+  double get _opacidade {
+    _$_opacidadeAtom.context.enforceReadPolicy(_$_opacidadeAtom);
+    _$_opacidadeAtom.reportObserved();
+    return super._opacidade;
+  }
+
+  @override
+  set _opacidade(double value) {
+    _$_opacidadeAtom.context.conditionallyRunInAction(() {
+      super._opacidade = value;
+      _$_opacidadeAtom.reportChanged();
+    }, _$_opacidadeAtom, name: '${_$_opacidadeAtom.name}_set');
+  }
+
+  final _$_PokemonDetailControllerBaseActionController =
+      ActionController(name: '_PokemonDetailControllerBase');
+
+  @override
+  double controlImagePokemon(dynamic state) {
+    final _$actionInfo =
+        _$_PokemonDetailControllerBaseActionController.startAction();
+    try {
+      return super.controlImagePokemon(state);
+    } finally {
+      _$_PokemonDetailControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
-    final string = '';
+    final string = 'opacidade: ${opacidade.toString()}';
     return '{$string}';
   }
 }
