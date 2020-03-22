@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pokemon/consts/consts_api.dart';
 import 'package:pokemon/consts/consts_images.dart';
+import 'package:pokemon/models/choice.dart';
 import 'package:pokemon/models/pokemon.dart';
 import 'package:pokemon/pages/home_page/home_controller.dart';
 import 'package:pokemon/pages/pokemon_detail/pokemon_detail_controller.dart';
+import 'package:pokemon/pages/pokemon_detail/widgets/about_page.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
@@ -19,24 +21,25 @@ class PokemonDetailPage extends StatefulWidget {
 }
 
 class _PokemonDetailPageState extends State<PokemonDetailPage> {
-
   HomeController homeController;
 
   PageController _pageController;
 
   PokemonDetailController pokemonDetailController;
 
+  Choice choice;
+
   @override
   void initState() {
     _pageController = PageController(initialPage: widget.index);
-
-    // pokemonP = Provider.of<Pokemon>(context, listen: false);
 
     pokemonDetailController = PokemonDetailController();
 
     homeController = Provider.of<HomeController>(context, listen: false);
 
     homeController.posicaoPokemon = widget.index;
+
+    choice = Choice();
 
     super.initState();
   }
@@ -66,62 +69,101 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
                   positioning: SnapPositioning.relativeToAvailableSpace,
                 ),
                 builder: (context, state) {
-                  return Container(
-                    height: MediaQuery.of(context).size.height,
-                    child: Center(
-                      child: Text('This is the content of the sheet'),
+                  return DefaultTabController(
+                    child: Column(
+                      children: <Widget>[
+                        pokemonDetailController.opacidade == 1
+                            ? Container(height: 20)
+                            : Container(),
+                        Container(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          height: MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            children: <Widget>[
+                              TabBar(
+                                indicatorColor: Colors.black,
+                                tabs: pokemonDetailController.choices
+                                    .map((Choice choice) {
+                                  return Tab(
+                                    // text: choice.title,
+                                    icon: Icon(choice.icon),
+                                    child: Text(
+                                      choice.title,
+                                      style: TextStyle(
+                                          color: ConstsApi.getColorType(
+                                              type: pokemon.type[0])),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                              Expanded(
+                                child: TabBarView(children: [
+                                  AboutPage(),
+                                  Icon(Icons.movie),
+                                ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
+                    length: pokemonDetailController.choices.length,
                   );
                 },
               ),
-              Positioned(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
-                  child: SizedBox(
-                    height: 200,
-                    child: PageView.builder(
-                      itemCount: homeController.pokemons.length,
-                      controller: _pageController,
-                      onPageChanged: (index) {
-                        Pokemon pokemonP = homeController.pokemons[index];
-                        homeController.setpokemon(pokemonP);
-                      },
-                      itemBuilder: (BuildContext context, int count) {
-                        Pokemon pokemonP = homeController.pokemons[count];
-                        return Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            Hero(
-                                child: Opacity(
-                                  child: Image.asset(
-                                    ConstsImages.imagePokeball,
-                                    height: 260,
-                                    width: 260,
-                                    color: Colors.white,
-                                  ),
-                                  opacity: 0.2,
-                                ),
-                                tag: count.toString()),
-                            Observer(builder: (_) {
-                              return Opacity(
-                                child: CachedNetworkImage(
-                                  height: 200,
-                                  width: 200,
-                                  placeholder: (context, url) => new Container(
-                                    color: Colors.transparent,
-                                  ),
-                                  imageUrl: "${pokemonP.img}",
-                                ),
-                                opacity: pokemonDetailController.opacidade,
+              pokemonDetailController.opacidade == 1
+                  ? Positioned(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 45.0),
+                        child: SizedBox(
+                          height: 200,
+                          child: PageView.builder(
+                            itemCount: homeController.pokemons.length,
+                            controller: _pageController,
+                            onPageChanged: (index) {
+                              Pokemon pokemonP = homeController.pokemons[index];
+                              homeController.setpokemon(pokemonP);
+                            },
+                            itemBuilder: (BuildContext context, int count) {
+                              Pokemon pokemonP = homeController.pokemons[count];
+                              return Stack(
+                                alignment: Alignment.center,
+                                children: <Widget>[
+                                  Hero(
+                                      child: Opacity(
+                                        child: Image.asset(
+                                          ConstsImages.imagePokeball,
+                                          height: 150,
+                                          width: 150,
+                                          color: Colors.white,
+                                        ),
+                                        opacity: 0.2,
+                                      ),
+                                      tag: count.toString()),
+                                  Observer(builder: (_) {
+                                    return Opacity(
+                                      child: CachedNetworkImage(
+                                        height: 150,
+                                        width: 150,
+                                        placeholder: (context, url) =>
+                                            new Container(
+                                          color: Colors.transparent,
+                                        ),
+                                        imageUrl: "${pokemonP.img}",
+                                      ),
+                                      opacity:
+                                          pokemonDetailController.opacidade,
+                                    );
+                                  }),
+                                ],
                               );
-                            }),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ),
+                            },
+                          ),
+                        ),
+                      ),
+                    )
+                  : Container()
             ],
           ),
         );

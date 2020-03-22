@@ -9,6 +9,11 @@ part of 'pokemon_detail_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$PokemonDetailController on _PokemonDetailControllerBase, Store {
+  Computed<List<Choice>> _$choicesComputed;
+
+  @override
+  List<Choice> get choices =>
+      (_$choicesComputed ??= Computed<List<Choice>>(() => super.choices)).value;
   Computed<double> _$opacidadeComputed;
 
   @override
@@ -33,6 +38,23 @@ mixin _$PokemonDetailController on _PokemonDetailControllerBase, Store {
     }, _$_opacidadeAtom, name: '${_$_opacidadeAtom.name}_set');
   }
 
+  final _$_choicesAtom = Atom(name: '_PokemonDetailControllerBase._choices');
+
+  @override
+  ObservableList<Choice> get _choices {
+    _$_choicesAtom.context.enforceReadPolicy(_$_choicesAtom);
+    _$_choicesAtom.reportObserved();
+    return super._choices;
+  }
+
+  @override
+  set _choices(ObservableList<Choice> value) {
+    _$_choicesAtom.context.conditionallyRunInAction(() {
+      super._choices = value;
+      _$_choicesAtom.reportChanged();
+    }, _$_choicesAtom, name: '${_$_choicesAtom.name}_set');
+  }
+
   final _$_PokemonDetailControllerBaseActionController =
       ActionController(name: '_PokemonDetailControllerBase');
 
@@ -49,7 +71,8 @@ mixin _$PokemonDetailController on _PokemonDetailControllerBase, Store {
 
   @override
   String toString() {
-    final string = 'opacidade: ${opacidade.toString()}';
+    final string =
+        'choices: ${choices.toString()},opacidade: ${opacidade.toString()}';
     return '{$string}';
   }
 }

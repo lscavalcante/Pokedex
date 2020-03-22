@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:pokemon/models/choice.dart';
 part 'pokemon_detail_controller.g.dart';
 
 class PokemonDetailController = _PokemonDetailControllerBase
@@ -8,8 +9,21 @@ abstract class _PokemonDetailControllerBase with Store {
   @observable
   double _opacidade = 1.0;
 
+  @observable
+  ObservableList<Choice> _choices = [
+    const Choice(title: 'About'),
+    const Choice(
+      title: 'Evolution',
+    ),
+  ].asObservable();
+
   @computed
-  double get opacidade =>  _opacidade;
+  List<Choice> get choices {
+    return _choices;
+  }
+
+  @computed
+  double get opacidade => _opacidade;
 
   @action
   double controlImagePokemon(state) {
@@ -25,5 +39,4 @@ abstract class _PokemonDetailControllerBase with Store {
       _opacidade = 1;
     }
   }
-
 }
