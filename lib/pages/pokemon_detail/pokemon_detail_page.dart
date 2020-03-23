@@ -8,6 +8,7 @@ import 'package:pokemon/models/pokemon.dart';
 import 'package:pokemon/pages/home_page/home_controller.dart';
 import 'package:pokemon/pages/pokemon_detail/pokemon_detail_controller.dart';
 import 'package:pokemon/pages/pokemon_detail/widgets/about_page.dart';
+import 'package:pokemon/pages/pokemon_detail/widgets/evolution_page.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
@@ -100,7 +101,7 @@ class _PokemonDetailPageState extends State<PokemonDetailPage> {
                               Expanded(
                                 child: TabBarView(children: [
                                   AboutPage(),
-                                  Icon(Icons.movie),
+                                  EvolutionPage()
                                 ]),
                               ),
                             ],
